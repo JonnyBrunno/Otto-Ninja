@@ -1,229 +1,291 @@
+<div align="center">
 
-# Otto Web App Control
+# 🤖 Otto Ninja Web Control
 
-  
+### INOVAMECH – Laboratório de Inovação em Mecatrônica
 
-This project is a web app that allows you to control [Otto DIY](https://www.ottodiy.com/) robots from a browser using Bluetooth connection. The application use the [p5js](https://p5js.org/) library to communicate with an Arduino board (connected to a BLE module) and [Sweetalert2](https://sweetalert2.github.io/) to make better popup boxes.
+<img src="images/otto-ninja-capa.jpg" width="550">
 
-  
+### Sistema Web para controle remoto do robô Otto Ninja utilizando ESP32 e comunicação Wi-Fi.
 
-## Installation
+<br>
 
-  
+![ESP32](https://img.shields.io/badge/ESP32-Wi--Fi-blue?style=for-the-badge)
+![Otto Ninja](https://img.shields.io/badge/Otto-Ninja-red?style=for-the-badge)
+![Open Source](https://img.shields.io/badge/Open%20Source-GitHub-black?style=for-the-badge)
+![INOVAMECH](https://img.shields.io/badge/INOVAMECH-Laboratório-darkred?style=for-the-badge)
 
-You can use the **app online** visiting: https://ottodiy.github.io/OttoWebAppControl/
+<br>
 
-  
+<a href="https://jonnybrunno.github.io/Otto-Ninja/">
+<img src="https://img.shields.io/badge/Acessar%20Aplicação-0078D7?style=for-the-badge">
+</a>
 
-To use the **app offline**, install the project following these steps:
+<a href="https://ottodiy.github.io/OttoWebAppControl/">
+<img src="https://img.shields.io/badge/Projeto%20Original-555555?style=for-the-badge">
+</a>
 
-  
+</div>
 
-1. Clone the repository to your computer using the command: `git clone https://github.com/OttoDIY/OttoWebAppControl.git`
+---
 
-  
+# 📖 Sobre o Projeto
 
-2. Install the dependencies by running `npm install` in the project folder.
+O **Otto Ninja Web Control – INOVAMECH Edition** é uma plataforma web desenvolvida para realizar o controle remoto do robô **Otto Ninja** por meio de um navegador de internet, utilizando comunicação via **ESP32** e rede Wi-Fi.
 
-  
+O projeto foi desenvolvido pelo **INOVAMECH – Laboratório de Inovação em Mecatrônica**, tendo como ponto de partida o projeto **Otto Web App Control**. Entretanto, esta versão passou por uma profunda reestruturação, deixando de ser apenas uma adaptação visual para se tornar uma nova implementação voltada às necessidades de ensino, pesquisa e extensão do laboratório.
 
-3. __And that's it!__ Open the __index.html__ file with Google Chrome (Computers & Android) or [Bluefy](https://apps.apple.com/us/app/bluefy-web-ble-browser/id1492822055) (iOS) to start using the app.
+Durante o desenvolvimento foi criada uma **nova versão (child)** do projeto, com uma identidade própria e diversas melhorias estruturais e funcionais.
 
-  
+---
 
-## Usage
+# 🚀 Principais melhorias implementadas
 
-  
+✅ Nova interface gráfica desenvolvida do zero
 
-To use the application, follow these steps:
+✅ Reorganização completa do código-fonte
 
-  
+✅ Nova identidade visual
 
-1. Upload the code to your robot depending which model you are using. [Otto Starter](https://github.com/OttoDIY/OttoWebAppControl/blob/main/OttoS_BLE.ino), [Otto Wheels](https://github.com/OttoDIY/OttoWebAppControl/blob/main/OttoW_BLE.ino), [Otto Ninja Starter](https://github.com/OttoDIY/OttoWebAppControl/blob/main/OttoNinja.ino).
+✅ Integração otimizada com ESP32
 
-**Note: Make sure that the connections of the robots (legs, feet, bluetooth, etc) are wired as specified in the code.**
-  
+✅ Melhor organização dos comandos
 
-2. Turn on your robot and make sure it is in pairing mode (the LED in the Bluetooth module should be blinking).
+✅ Novos modos de operação
 
-  
+✅ Interface mais intuitiva
 
-3. Open the application in your browser.
+✅ Código preparado para futuras expansões
 
-  
+✅ Adaptação para projetos acadêmicos e de pesquisa
 
-4. Select the robot from the list in the robot selector bar.
+---
 
-  
+# 🌐 Aplicação Online
 
-5. Click on __Connect__ button and select your robot from the list of available Bluetooth devices that will appear.
+Acesse a aplicação em:
 
-  
+## https://jonnybrunno.github.io/Otto-Ninja/
 
-6. Once connected, you can control the robot using the controls on the screen or the keyboard shortcuts.
+Projeto utilizado como referência:
 
-  
+## https://ottodiy.github.io/OttoWebAppControl/
 
-## Features
+---
 
-  
+# 🖥️ Interface
 
-- ****Compatibility:**** with all Otto DIY robots but other biped and vehicle robots based on Arduino could be connected too
+## Tela Inicial
 
-  
+<p align="center">
+<img src="images/interface-home.png">
+</p>
 
-- ****Movement control:**** forward, backward, turn left and turn right
+---
 
-  
+## Painel de Controle
 
-- ****Gestures:**** with Otto Starter you can execute some gestures like Happy, Sad, Angry, etc
+<p align="center">
+<img src="images/interface-control.png">
+</p>
 
-  
+A interface foi completamente redesenhada para oferecer uma experiência mais intuitiva, organizada e compatível com as necessidades dos projetos desenvolvidos pelo INOVAMECH.
 
-- ****Functions:**** avoidance (biped & wheels) and line follower (only wheels) functions are available
+---
 
-  
+# 🔧 Hardware
 
-- ****Sensor value display:**** depending on the robot you are using you will be able to view the values of some sensors like ultrasound and infrared
+Foi desenvolvido um hardware baseado em **ESP32**, responsável pela comunicação entre o robô e a aplicação Web.
 
-  
+## Vista Frontal
 
-## Contributions
+<p align="center">
+<img src="images/esp32-front.jpg" width="350">
+</p>
 
-  
+---
 
-This project is open source and we welcome contributions. If you would like to help improve the project, please follow this process:
+## Vista Traseira
 
-  
+<p align="center">
+<img src="images/esp32-back.jpg" width="350">
+</p>
 
-1. Clone or fork the repository
+A placa foi projetada para simplificar a integração entre os servomotores, sensores e o ESP32, proporcionando uma solução compacta e de fácil manutenção.
 
-  
+---
 
-2. Create a branch for your feature (`git checkout -b my-new-feature`)
+# 🎮 Funcionalidades
 
-  
+- Controle dos movimentos do robô
 
-3. Commit your changes (`git commit -am 'Add some feature'`)
+- Movimento para frente
 
-  
+- Movimento para trás
 
-4. Push to the branch (`git push origin my-new-feature`)
+- Giro para esquerda
 
-  
+- Giro para direita
 
-5. Create a new pull request
+- Controle do servo da cabeça
 
-  
+- Modos especiais
 
-If you are looking for something specific you could help, check the [issues section](https://github.com/OttoDIY/OttoWebAppControl/issues).
+- Comunicação Wi-Fi
 
-  
+- Interface Web responsiva
 
-****If working with the app styles****, we are currently implementing [PostCSS](https://postcss.org/), so consider:
+- Compatível com computadores
 
-- When you are developing, you can run `npm run css:watch` to compile while you are working  
+- Compatível com tablets
 
-- For compiling styles run `npm run css:build` when your code is ready for deploy
+- Compatível com smartphones
 
+- Integração com ESP32
 
+---
 
-  
+# 📡 Como utilizar
 
-## License
+## 1. Ligue o robô
 
-  
+Alimente o Otto Ninja e aguarde a inicialização do ESP32.
 
-### GNU General Public License v3.0
+---
 
-  
+## 2. Conecte-se à rede
 
-Read it [here](https://github.com/OttoDIY/OttoWebAppControl/blob/main/LICENSE)
+Conecte seu computador ou smartphone à mesma rede do ESP32.
 
-  
+---
 
-## System Requirements
+## 3. Abra o navegador
 
-  
+Acesse:
 
-- Browser compatible with [Web Bluetooth API.](https://developer.mozilla.org/en-US/docs/Web/API/Web_Bluetooth_API) Currently we strongly recommend Google Chrome for Computers (including Macbook) and Android devices, and [Bluefy](https://apps.apple.com/us/app/bluefy-web-ble-browser/id1492822055)  for iOS devices (iPhones and iPad).
+```
+https://jonnybrunno.github.io/Otto-Ninja/
+```
 
-  
+---
 
-## Known issues
+## 4. Informe o endereço IP
 
-  
+Digite o endereço IP do robô.
 
-Currently, Google Chrome is the only browser giving a good user experience for this app, **except on iOS devices**. For iOS devices (iPhones and iPad) we have confirmed that [Bluefy](https://apps.apple.com/us/app/bluefy-web-ble-browser/id1492822055) work good. In case you are having issues using this app with another browser, we strongly recommend to try it with Chrome and/or Bluefy to confirm if it is a general issue or something with the browser.
+Exemplo:
 
-  
+```
+http://172.27.23.109/
+```
 
-## Credits
+---
 
-  
+## 5. Controle o robô
 
-Thanks to all these great people and open projects, it has been possible to make this software:
+Após a conexão, utilize os comandos disponíveis na interface para controlar o Otto Ninja.
 
-  
+---
 
--  [Iván R. Artiles](https://github.com/IvanR3D)
+# 🧰 Tecnologias Utilizadas
 
-  
+- HTML5
 
--  [Camilo Parra](https://github.com/cparrapa)
+- CSS3
 
-  
+- JavaScript
 
--  [Alejandro Narmona](https://github.com/alenarmona)
+- ESP32
 
-  
+- Wi-Fi
 
--  [OttoDIY](https://www.ottodiy.com/)
+- GitHub Pages
 
-  
+---
 
--  [P5js](https://p5js.org/)
+# 🎓 Aplicações
 
-  
+Este projeto vem sendo utilizado em atividades de:
 
--  [SweetAlert](https://sweetalert2.github.io/)
+- Robótica Educacional
 
-  
+- Sistemas Embarcados
 
-## Screenshots
+- Internet das Coisas (IoT)
 
-Easy to connect!
+- Automação
 
-![enter image description here](https://ivanr3d.com/assets/img/screenshots/OttoWAC/OttoWAC_use-OttoStarter.gif)
+- Programação
 
-  
+- Projetos Maker
 
-Light/Dark mode available!
+- Pesquisa Científica
 
-![enter image description here](https://ivanr3d.com/assets/img/screenshots/OttoWAC/OttoWAC_use-OttoWheels.gif)
+- Extensão Universitária
 
-  
+---
 
-Now Otto Wheels can be controlled using a joystick!
+# 🏛️ Desenvolvido por
 
-![enter image description here](https://ivanr3d.com/assets/img/screenshots/OttoWAC/wheels--joystick.gif)
+<div align="center">
 
-  
+# INOVAMECH
 
-## Additional links
+## Laboratório de Inovação em Mecatrônica
 
-  
+*"Desenvolvendo soluções tecnológicas para educação, pesquisa e inovação nas áreas de robótica, automação e sistemas inteligentes."*
 
-- Official p5.js documentation: [https://p5js.org/](https://p5js.org/)
+</div>
 
-  
+---
 
-- Official Sweetalert2 documentation: [https://sweetalert2.github.io/](https://sweetalert2.github.io/)
+# 📂 Estrutura do Projeto
 
-  
+```
+Otto-Ninja
+│
+├── css/
+│
+├── js/
+│
+├── images/
+│   ├── otto-ninja-capa.jpg
+│   ├── interface-home.png
+│   ├── interface-control.png
+│   ├── esp32-front.jpg
+│   └── esp32-back.jpg
+│
+├── index.html
+│
+└── README.md
+```
 
-- Official website of the Otto DIY robots: [https://www.ottodiy.com/](https://www.ottodiy.com/)
+---
 
-  
+# 📜 Créditos
 
-- Documentation for Otto DIY robots: [https://www.ottodiy.com/academy](https://www.ottodiy.com/academy)
+Este projeto foi desenvolvido pelo **INOVAMECH – Laboratório de Inovação em Mecatrônica**.
+
+A versão atual foi baseada no projeto **Otto Web App Control**, porém recebeu uma ampla reestruturação de arquitetura, interface e funcionalidades, resultando em uma implementação própria, adaptada às necessidades dos projetos desenvolvidos pelo laboratório.
+
+---
+
+# 📌 Links
+
+## 🌐 Aplicação
+
+https://jonnybrunno.github.io/Otto-Ninja/
+
+## 🔗 Projeto de Referência
+
+https://ottodiy.github.io/OttoWebAppControl/
+
+---
+
+<div align="center">
+
+### ⭐ Se este projeto foi útil para você, deixe uma estrela no repositório!
+
+**INOVAMECH – Laboratório de Inovação em Mecatrônica**
+
+</div>
