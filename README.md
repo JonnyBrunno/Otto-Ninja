@@ -4,7 +4,7 @@
 
 ### INOVAMECH – Laboratório de Inovação em Mecatrônica
 
-<img src="[images/otto-ninja-capa.jpg](https://github.com/JonnyBrunno/Otto-Ninja/blob/main/Otto-Sumo.jpeg)" width="550">
+<img src="Otto-Sumo.jpeg" width="550">
 
 ### Sistema Web para controle remoto do robô Otto Ninja utilizando ESP32 e comunicação Wi-Fi.
 
