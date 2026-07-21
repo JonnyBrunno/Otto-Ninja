@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark" />
+    <title>Otto DIY Web App Control</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <link rel="icon" href="img/favicon.ico">
+    <link rel="apple-touch-icon" href="img/favicon.ico">
+    <!-- PLEASE NO CHANGES BELOW THIS LINE (UNTIL I SAY SO) -->
+    <script language="javascript" type="text/javascript" src="libraries/p5.min.js"></script>
+    <script language="javascript" type="text/javascript" src="libraries/p5.ble.js"></script>
+    <script language="javascript" type="text/javascript" src="js/bluetooth.js"></script>
+    <script language="javascript" type="text/javascript" src="js/commands.js"></script>
+    <script language="javascript" type="text/javascript" src="js/BluetoothGUI.js"></script>
+    <script language="javascript" type="text/javascript" src="libraries/p5.dom.min.js"></script>
+    <!-- OK, YOU CAN MAKE CHANGES BELOW THIS LINE AGAIN -->
+    <script src="vendor/sweetalert2.all.min.js"></script>
+</head>
+<body>
+    <script>
+        const theme = localStorage.getItem('theme') || 'light';
+        document.documentElement.dataset.theme = theme;
+    </script>
+    <main>
+        <div class="wrapper">
+            <section class="robot--selector">
+                <div></div>
+                            <div class="container__bluetooth--icon"><span class="bluetooth--icon"></span></div>
+                            <div class="otto--robots">
+                                <div id="OttoStarter" onclick="OttoConnection('Otto Starter')"><img src="img/OttoS.svg" alt="Otto Starter robot icon" class="robot--icon"></div>
+                                <div id="OttoEmotions" onclick="ComingSoon('Otto Emotions')" class="disabled"><img src="img/OttoE.svg" alt="Otto Emotions robot icon" class="robot--icon"></div>
+                                <div id="OttoHumanoid" onclick="ComingSoon('Otto Humanoid')"><img src="img/OttoH.svg" alt="Otto Humanoid robot icon" class="robot--icon"></div>
+                                <div id="OttoSmart" onclick="ComingSoon('Otto Smart')"><img src="img/OttoSmart.svg" alt="Otto Smart robot icon" class="robot--icon"></div>
+                                <div id="OttoWheels" onclick="OttoConnection('Otto Wheels')"><img src="img/OttoW.svg" alt="Otto Wheels robot icon" class="robot--icon"></div>
+                                <div id="OttoQuad" onclick="ComingSoon('Otto Quad')"><img src="img/OttoQ.svg" alt="Otto Quad robot icon" class="robot--icon"></div>
+                                <div id="OttoNinja" onclick="Ninja()"><img src="img/OttoNinja.svg" alt="Otto Ninja robot icon" class="robot--icon"></div>
+                            </div>
+                            <div style="
+                display: flex;
+                align-items: center;
+            ">
+            <div class="container__setting--icon"><span class="setting--icon" onclick="settings()"></span></div>
+                            <!-- <div class="container__arduino--icon"><span class="codes--icon" onclick="arduinoCodes()"></span></div> 
+                            <div class="container__calibration--icon"><span class="calibration--icon" onclick="calibration()"></span></div> -->
+                            <div class="tumbler-wrapper" onclick="changeTheme()">
+                                <div class="tumbler tumbler-night"></div>
+                                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 499.712 499.712" style="enable-background:new 0 0 499.712 499.712;" xml:space="preserve">
+                                    <path style="fill:#FFD93B;" d="M146.88,375.528c126.272,0,228.624-102.368,228.624-228.64c0-55.952-20.16-107.136-53.52-146.88
+                                        C425.056,33.096,499.696,129.64,499.696,243.704c0,141.392-114.608,256-256,256c-114.064,0-210.608-74.64-243.696-177.712
+                                        C39.744,355.368,90.944,375.528,146.88,375.528z"></path>
+                                    <path style="fill:#F4C534;" d="M401.92,42.776c34.24,43.504,54.816,98.272,54.816,157.952c0,141.392-114.608,256-256,256
+                                        c-59.68,0-114.448-20.576-157.952-54.816c46.848,59.472,119.344,97.792,200.928,97.792c141.392,0,256-114.608,256-256
+                                        C499.712,162.12,461.392,89.64,401.92,42.776z"></path>
+                                    <g>
+                                        <polygon style="fill:#FFD83B;" points="128.128,99.944 154.496,153.4 213.472,161.96 170.8,203.56 180.864,262.296
+                                            128.128,234.568 75.376,262.296 85.44,203.56 42.768,161.96 101.744,153.4 	"></polygon>
+                                        <polygon style="fill:#FFD83B;" points="276.864,82.84 290.528,110.552 321.104,114.984 298.976,136.552 304.208,166.984
+                                            276.864,152.616 249.52,166.984 254.752,136.552 232.624,114.984 263.2,110.552 	"></polygon>
+                                    </g></svg>
+                                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 60 60" style="enable-background:new 0 0 60 60;" xml:space="preserve">
+                                <g>
+                                    <path style="fill:#F0C419;" d="M30,0c-0.552,0-1,0.448-1,1v6c0,0.552,0.448,1,1,1s1-0.448,1-1V1C31,0.448,30.552,0,30,0z"></path>
+                                    <path style="fill:#F0C419;" d="M30,52c-0.552,0-1,0.448-1,1v6c0,0.552,0.448,1,1,1s1-0.448,1-1v-6C31,52.448,30.552,52,30,52z"></path>
+                                    <path style="fill:#F0C419;" d="M59,29h-6c-0.552,0-1,0.448-1,1s0.448,1,1,1h6c0.552,0,1-0.448,1-1S59.552,29,59,29z"></path>
+                                    <path style="fill:#F0C419;" d="M8,30c0-0.552-0.448-1-1-1H1c-0.552,0-1,0.448-1,1s0.448,1,1,1h6C7.552,31,8,30.552,8,30z"></path>
+                                    <path style="fill:#F0C419;" d="M46.264,14.736c0.256,0,0.512-0.098,0.707-0.293l5.736-5.736c0.391-0.391,0.391-1.023,0-1.414
+                                        s-1.023-0.391-1.414,0l-5.736,5.736c-0.391,0.391-0.391,1.023,0,1.414C45.752,14.639,46.008,14.736,46.264,14.736z"></path>
+                                    <path style="fill:#F0C419;" d="M13.029,45.557l-5.736,5.736c-0.391,0.391-0.391,1.023,0,1.414C7.488,52.902,7.744,53,8,53
+                                        s0.512-0.098,0.707-0.293l5.736-5.736c0.391-0.391,0.391-1.023,0-1.414S13.42,45.166,13.029,45.557z"></path>
+                                    <path style="fill:#F0C419;" d="M46.971,45.557c-0.391-0.391-1.023-0.391-1.414,0s-0.391,1.023,0,1.414l5.736,5.736
+                                        C51.488,52.902,51.744,53,52,53s0.512-0.098,0.707-0.293c0.391-0.391,0.391-1.023,0-1.414L46.971,45.557z"></path>
+                                    <path style="fill:#F0C419;" d="M8.707,7.293c-0.391-0.391-1.023-0.391-1.414,0s-0.391,1.023,0,1.414l5.736,5.736
+                                        c0.195,0.195,0.451,0.293,0.707,0.293s0.512-0.098,0.707-0.293c0.391-0.391,0.391-1.023,0-1.414L8.707,7.293z"></path>
+                                    <path style="fill:#F0C419;" d="M50.251,21.404c0.162,0.381,0.532,0.61,0.921,0.61c0.13,0,0.263-0.026,0.39-0.08l2.762-1.172
+                                        c0.508-0.216,0.746-0.803,0.53-1.311s-0.804-0.746-1.311-0.53l-2.762,1.172C50.272,20.309,50.035,20.896,50.251,21.404z"></path>
+                                    <path style="fill:#F0C419;" d="M9.749,38.596c-0.216-0.508-0.803-0.746-1.311-0.53l-2.762,1.172
+                                        c-0.508,0.216-0.746,0.803-0.53,1.311c0.162,0.381,0.532,0.61,0.921,0.61c0.13,0,0.263-0.026,0.39-0.08l2.762-1.172
+                                        C9.728,39.691,9.965,39.104,9.749,38.596z"></path>
+                                    <path style="fill:#F0C419;" d="M54.481,38.813L51.7,37.688c-0.511-0.207-1.095,0.041-1.302,0.553
+                                        c-0.207,0.512,0.041,1.095,0.553,1.302l2.782,1.124c0.123,0.049,0.25,0.073,0.374,0.073c0.396,0,0.771-0.236,0.928-0.626
+                                        C55.241,39.603,54.994,39.02,54.481,38.813z"></path>
+                                    <path style="fill:#F0C419;" d="M5.519,21.188L8.3,22.312c0.123,0.049,0.25,0.073,0.374,0.073c0.396,0,0.771-0.236,0.928-0.626
+                                        c0.207-0.512-0.041-1.095-0.553-1.302l-2.782-1.124c-0.513-0.207-1.095,0.04-1.302,0.553C4.759,20.397,5.006,20.98,5.519,21.188z"></path>
+                                    <path style="fill:#F0C419;" d="M39.907,50.781c-0.216-0.508-0.803-0.745-1.311-0.53c-0.508,0.216-0.746,0.803-0.53,1.311
+                                        l1.172,2.762c0.162,0.381,0.532,0.61,0.921,0.61c0.13,0,0.263-0.026,0.39-0.08c0.508-0.216,0.746-0.803,0.53-1.311L39.907,50.781z"></path>
+                                    <path style="fill:#F0C419;" d="M21.014,9.829c0.13,0,0.263-0.026,0.39-0.08c0.508-0.216,0.746-0.803,0.53-1.311l-1.172-2.762
+                                        c-0.215-0.509-0.802-0.747-1.311-0.53c-0.508,0.216-0.746,0.803-0.53,1.311l1.172,2.762C20.254,9.6,20.625,9.829,21.014,9.829z"></path>
+                                    <path style="fill:#F0C419;" d="M21.759,50.398c-0.511-0.205-1.095,0.04-1.302,0.553l-1.124,2.782
+                                        c-0.207,0.512,0.041,1.095,0.553,1.302c0.123,0.049,0.25,0.073,0.374,0.073c0.396,0,0.771-0.236,0.928-0.626l1.124-2.782
+                                        C22.519,51.188,22.271,50.605,21.759,50.398z"></path>
+                                    <path style="fill:#F0C419;" d="M38.615,9.675c0.396,0,0.771-0.236,0.928-0.626l1.124-2.782c0.207-0.512-0.041-1.095-0.553-1.302
+                                        c-0.511-0.207-1.095,0.041-1.302,0.553L37.688,8.3c-0.207,0.512,0.041,1.095,0.553,1.302C38.364,9.651,38.491,9.675,38.615,9.675z"></path>
+                                </g>
+                                <circle style="fill:#F0C419;" cx="30" cy="30" r="20"></circle>
+                                <circle style="fill:#EDE21B;" cx="30" cy="30" r="15"></circle>
+                                </svg>
+                            </div>
+            </div>
+                        </section>
+
+            <section class="robot--controls">
+                <div class="gamepad">
+                    <div id="disconnectMessage--container" style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%;">
+                        <header>
+                            <img id="app--icon" src="img/app-icon.svg" alt="Icon of the web app of Otto DIY">
+                            <h1>Web App Control</h1>
+                            <h3>Click a robot to connect it & get the controller!</h3>
+                            <br>
+                            <h3 style="padding: 0 2rem;">⚠️ The Bluetooth module in your robot must be compatible with bluetooth 4.0 to work with this control.</h3>
+                        </header>
+                    </div>
+                    <div id="joystick--control" style="display: none;z-index: 1000;align-items: center;justify-content: center; flex-wrap: wrap; width: 40%;">
+                        <canvas id="joystick--canvas" name="game" width="200" height="200"></canvas>
+                    </div>
+                    <div id="dir--keys" class="dir--keys" style="display: none;">
+                        <div class="top">
+                            <span class="up arrow" onclick="btnPressed('up')"></span>
+                        </div>
+                        <div class="middle">
+                            <span class="left arrow" onclick="btnPressed('left')"></span>
+                            <span class="stop--button" onclick="btnPressed('s')"></span>
+                            <span class="right arrow" onclick="btnPressed('right')"></span>
+                        </div>
+                        <div class="bottom">
+                            <span class="down arrow" onclick="btnPressed('down')"></span>
+                        </div>
+                    </div>
+                    <div class="lever" style="display: none;">
+                        <div class="slider--container">
+                            <input type="range" orient="vertical" name="speed--slider" id="speed--slider" min="0" max="5" value="3" class="slider"/>
+                        </div>
+                    </div>
+                    <div id="functions--section" class="functions" style="display: none;">
+                        <div id="sensors--dashboard"></div>
+                        <div id="functions--robot"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <a href="https://www.ottodiy.com/" target="_blank"><img src="img/logo-horizontal(fondo-blanco).svg" alt="Logo of Otto DIY brand" class="footer--logo"/></a>
+        <span>Otto WAC © 2023 - version 1.0</span>
+        <span>Made with 💚 by 🤖<a href="https://discord.com/invite/CZZytnw" target="_blank">OttoDIY community</a></span>
+        <ul>
+            <li><a href="https://github.com/OttoDIY/OttoWebAppControl" target="_blank"><i class="fab fa-github"></i></a></li>
+            <li><a href="https://discord.com/invite/CZZytnw" target="_blank"><i class="fab fa-discord"></i></a></li>
+            <li><a href="https://www.facebook.com/groups/ottodiy" target="_blank"><i class="fab fa-facebook"></i></a></li>
+            <li><a href="https://twitter.com/ottodiy" target="_blank"><i class="fab fa-twitter"></i></a></li>
+            <li><a href="https://www.instagram.com/ottodiy/" target="_blank"><i class="fab fa-instagram"></i></a></li>
+            <li><a href="https://www.youtube.com/ottodiy" target="_blank"><i class="fab fa-youtube"></i></a></li>
+            <li><a href="https://www.linkedin.com/company/ottodiy/" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+        </ul>
+        <img class="contact--icon" src="img/contact-icon.webp" alt="Otto robot with headphones as a call center assistant" onclick="FeedbackModal()"/>
+    </footer>
+
+    <script>
+        function getUserPreference() {
+            return localStorage.getItem('theme') || 'light';
+        }
+        function saveUserPreference(userPreference) {
+            localStorage.setItem('theme', userPreference);
+        }
+
+        function getAppliedMode(userPreference) {
+            if (userPreference === 'light') {
+                return 'light';
+            }
+            if (userPreference === 'dark') {
+                return 'dark';
+            }
+            // system
+            if (matchMedia('(prefers-color-scheme: light)').matches) {
+                return 'light';
+            }
+                return 'dark';
+        }
+
+        function setAppliedMode(mode) {
+            document.documentElement.dataset.theme = mode;
+            loadTheme(mode);
+        }
+
+        function rotatePreferences(userPreference) {
+            if (userPreference === 'light') {
+                return 'dark';
+            }
+            if (userPreference === 'dark') {
+                return 'light';
+            }
+            // for invalid values, just in case
+            return 'light';
+        }
+
+        function loadTheme(theme) {
+            const appIcon = document.getElementById('app--icon');
+            const footerLogo = document.getElementsByClassName('footer--logo')[0];
+            const tumbler = document.getElementsByClassName('tumbler')[0];
+            if (userPreference === 'dark') {
+                appIcon.src = "img/app-icon(white).svg";
+                footerLogo.src = "img/logo-horizontal(fondo azul).svg";
+                tumbler.classList.add('tumbler-night');
+            } else {
+                appIcon.src = "img/app-icon.svg";
+                footerLogo.src = "img/logo-horizontal(fondo-blanco).svg";
+                tumbler.classList.remove('tumbler-night');
+            }
+        }
+
+        function changeTheme() {
+            const newUserPref = rotatePreferences(userPreference);
+            userPreference = newUserPref;
+            saveUserPreference(newUserPref);
+            setAppliedMode(getAppliedMode(newUserPref));
+
+            loadTheme(newUserPref);
+        }
+
+        let userPreference = getUserPreference();
+        setAppliedMode(getAppliedMode(userPreference));
+    </script>
+    <script src="js/connection.js"></script>
+    <script src="js/controller.js"></script>
+    <script>
+        const dir = document.getElementById("dir--keys");
+        const fun = document.getElementById("functions--section");
+        const sensorDash = document.getElementById("sensors--dashboard");
+        const funRobot = document.getElementById("functions--robot");
+        let rf = 60;
+        let rb = 120;
+        let lf = 150;
+        let lb = 40;
+        let ts_sr = 35;
+        let ts_sl = 35;
+        let ts_ultrasound = 15;
+
+        function CreateUltrasound() {
+            const UltradsoundDiv = document.createElement("div");
+            UltradsoundDiv.id = "ultrasound";
+            UltradsoundDiv.classList.add("link");
+            const UltrasoundImg = document.createElement("img");
+            UltrasoundImg.src = "img/ultrasound-sensor.svg";
+            UltrasoundImg.addEventListener("mouseover", function() {if(OttoConnected){Ultrasound()}});
+            UltrasoundImg.style.width = "70px";
+            const UltrasoundSpan = document.createElement("span");
+            UltrasoundSpan.classList.add("bubble");
+            UltradsoundDiv.appendChild(UltrasoundImg);
+            UltradsoundDiv.appendChild(UltrasoundSpan);
+            sensorDash.appendChild(UltradsoundDiv);
+        }
+
+        function CreateInfrared(params) {
+            const InfraredDiv = document.createElement("div");
+            InfraredDiv.id = "infrared";
+            InfraredDiv.classList.add("link");
+            const InfraredImg = document.createElement("img");
+            InfraredImg.src = "img/infrared-sensor.svg";
+            InfraredImg.addEventListener("mouseover", function() {if(OttoConnected){Infrared()}});
+            InfraredImg.style.height = "70px";
+            const InfraredSpan = document.createElement("span");
+            InfraredSpan.classList.add("bubble");
+            InfraredSpan.style.width = "100px";
+            InfraredSpan.style.left = "-155%";
+            InfraredDiv.appendChild(InfraredImg);
+            InfraredDiv.appendChild(InfraredSpan);
+            sensorDash.appendChild(InfraredDiv);
+        }
+
+        function CreateAvoidance() {
+            const avoidDiv = document.createElement("div");
+            avoidDiv.classList.add("robot--functions");
+            avoidDiv.style.display = "flex";
+            avoidDiv.style.alignItems = "center";
+            const avoidLabel = document.createElement("label");
+            avoidLabel.classList.add("txt");
+            avoidLabel.setAttribute("for", "starter-switch");
+            avoidLabel.innerText = "Avoid";
+            const avoidInput = document.createElement("input");
+            avoidInput.type = "checkbox";
+            avoidInput.id = "starter-switch";
+            avoidInput.addEventListener("click", function() {if(this.checked){Avoidance()}else{Stop()}});
+            const avoidToggle = document.createElement("label");
+            avoidToggle.classList.add("toggle");
+            avoidToggle.setAttribute("for", "starter-switch");
+            avoidToggle.innerText = "Toggle";
+            avoidDiv.appendChild(avoidLabel);
+            avoidDiv.appendChild(avoidInput);
+            avoidDiv.appendChild(avoidToggle);
+            funRobot.appendChild(avoidDiv);
+        }
+
+        function CreateForce() {
+            const forceDiv = document.createElement("div");
+            forceDiv.classList.add("robot--functions");
+            forceDiv.style.display = "flex";
+            forceDiv.style.alignItems = "center";
+            const forceLabel = document.createElement("label");
+            forceLabel.classList.add("txt");
+            forceLabel.setAttribute("for", "starter-switch-2");
+            forceLabel.innerText = "Jedi";
+            const forceInput = document.createElement("input");
+            forceInput.type = "checkbox";
+            forceInput.id = "starter-switch-2";
+            forceInput.addEventListener("click", function() {if(this.checked){UseForce()}else{Stop()}});
+            const forceToggle = document.createElement("label");
+            forceToggle.classList.add("toggle");
+            forceToggle.setAttribute("for", "starter-switch-2");
+            forceToggle.innerText = "Toggle";
+            forceDiv.appendChild(forceLabel);
+            forceDiv.appendChild(forceInput);
+            forceDiv.appendChild(forceToggle);
+            funRobot.appendChild(forceDiv);
+        }
+
+        function CreateLineFollower() {
+            const followDiv = document.createElement("div");
+            followDiv.classList.add("robot--functions");
+            followDiv.style.display = "flex";
+            followDiv.style.alignItems = "center";
+            const followLabel = document.createElement("label");
+            followLabel.classList.add("txt");
+            followLabel.setAttribute("for", "starter-switch-3");
+            followLabel.innerText = "Line Follow";
+            const followInput = document.createElement("input");
+            followInput.type = "checkbox";
+            followInput.id = "starter-switch-3";
+            followInput.addEventListener("click", function() {if(this.checked){LineFollower()}else{Stop()}});
+            const followToggle = document.createElement("label");
+            followToggle.classList.add("toggle");
+            followToggle.setAttribute("for", "starter-switch-3");
+            followToggle.innerText = "Toggle";
+            followDiv.appendChild(followLabel);
+            followDiv.appendChild(followInput);
+            followDiv.appendChild(followToggle);
+            funRobot.appendChild(followDiv);
+        }
+
+        function CreateGesturesButtons() {
+            const gesturesDiv = document.createElement("div");
+            gesturesDiv.id = "gestures--buttons";
+            fun.appendChild(gesturesDiv);
+            let btn;
+            for (let i = 0; i < 7; i++) {
+                btn = document.createElement("button");
+                btn.classList.add("otto--gesture");
+                if (i == 0) {
+                    btn.innerText = "Happy";
+                    btn.addEventListener("click", () =>{Happy()});
+                } else if (i == 1) {
+                    btn.innerText = "Victory";
+                    btn.addEventListener("click", () =>{Victory()});
+                } else if (i == 2) {
+                    btn.innerText = "Sad";
+                    btn.addEventListener("click", () =>{Sad()});
+                } else if (i == 3) {
+                    btn.innerText = "Sleeping";
+                    btn.addEventListener("click", () =>{Sleeping()});
+                } else if (i == 4) {
+                    btn.innerText = "Confused";
+                    btn.addEventListener("click", () =>{Confused()});
+                } else if (i == 5) {
+                    btn.innerText = "Fail";
+                    btn.addEventListener("click", () =>{Fail()});
+                } else if (i == 6) {
+                    btn.innerText = "Fart";
+                    btn.addEventListener("click", () =>{Fart()});
+                }
+                gesturesDiv.appendChild(btn);
+            }
+        }
+
+        function FunctionsDestroyer() {
+            while (fun.childElementCount > 0) {
+                fun.children[0].remove();
+            }
+        }
+
+        function SensorsView() {
+            if (document.getElementById("ultrasound") != null &&  document.getElementById("ultrasound").matches(':hover') == true) {
+                document.getElementsByClassName("bubble")[0].innerText = receivedValue;
+                Ultrasound();
+            }
+            else if (document.getElementById("infrared") != null && document.getElementById("infrared").matches(':hover') == true) {
+                document.getElementsByClassName("bubble")[1].innerText = receivedValue;
+                Infrared();
+            }
+        }
+
+        function settings() {
+            let SettingTxt = 'First connect an Otto robot to see the settings';
+            if (ROBOT == "Otto Starter") {
+                SettingTxt = '<ul class="config"><li>Threshold - Ultrasound</li><input type="number" id="ts_ultrasound" value="'+ts_ultrasound+'"/></ul>';
+            }
+            else if (ROBOT == "Otto Wheels") {
+                SettingTxt = '<ul class="config"><li>Forward Speed (right motor):</li><input type="number" id="rf" value="'+rf+'"/><li>Backward Speed (right motor):</li><input type="number" id="rb" value="'+rb+'"/><li>Forward Speed (left motor):</li><input type="number" id="lf" value="'+lf+'"/><li>Backward Speed (left motor):</li><input type="number" id="lb" value="'+lb+'"/></ul><ul class="config"><li>Threshold - Infrared sensor (right):</li><input type="number" id="ts_sr" value="'+ts_sr+'"/><li>Threshold - Infrared sensor (left):</li><input type="number" id="ts_sl" value="'+ts_sl+'"/><li>Threshold - Ultrasound</li><input type="number" id="ts_ultrasound" value="'+ts_ultrasound+'"/></ul>';
+            }
+            Swal.fire({
+                icon: 'info',
+                title: 'Robot configuration',
+                html: SettingTxt,
+                showDenyButton: false,
+                showCancelButton: true,
+                confirmButtonText: 'Save',
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    newSettings(ROBOT);
+                    Swal.fire('Your configuration is saved!', '', 'success')
+                }
+            })
+        }
+
+        function FeedbackModal() {
+            Swal.fire({
+                icon: 'info',
+                title: 'Do you like this controller?',
+                html: '<p>Send us your feedback at <a href="mailto:education@ottodiy.com" target="_blank">education@ottodiy.com</a> or through your favorite social network @OttoDIY.</p><p>You can also help with the development of this software by:</p><ul style="text-align:left;"><li><a href="https://ko-fi.com/ottodiy" target="_blank">Donating coding time</a></li><li>Coding by yourself. Drop us a message if you want to collaborate with this project.</ul>',
+                showDenyButton: false,
+                showCancelButton: false,
+            })
+        }
+
+        function Ninja() {
+            Swal.fire({
+                icon: 'info',
+                title: 'Otto Ninja use WiFi instead of Bluetooth!',
+                html: '<p>To connect Otto Ninja upload <a href="OttoNinja.ino" target="_blank">this code</a> and go to <a href="http://ottodiy.org/ninja/">Ninja Controller</a>.</p>',
+                confirmButtonText: 'Go to Ninja Controller',
+                showDenyButton: false,
+                showCancelButton: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    window.location = "http://ottodiy.org/ninja/"
+                }
+            })
+        }
+
+        function ComingSoon(robot) {
+            Swal.fire({
+                icon: 'info',
+                title: robot + ' is not available yet!',
+                html: '<p>This controller is being developed in the spare time of creators with the support of the community.</p><h3>Would you like to support devs?</h3><p>You can <a href="https://ko-fi.com/ottodiy" target="_blank">donate coding time</a> or if you are a programmer, get in contact with us if you think you can help to develop this tool.</p>',
+                showDenyButton: false,
+                showCancelButton: false,
+            })
+        }
+
+        function arduinoCodes() {
+            Swal.fire({
+                icon: 'info',
+                title: 'Downloads zone',
+                html: '<p>To start using this app, you must download the bluetooth code required depending which robot you are using</p>'+
+                '<p>Upload the code <ul><li>OttoStarter <a href="OttoS_BLE.ino" target="_blank">Arduino Ino</a> or <a href="https://ivanr3d.com/tools/otto/codes/" target="_blank">Web Installer</a></li> <li>OttoWheels <a href="OttoW_BLE.ino" target="_blank">Arduino Ino</a> or <a href="https://ivanr3d.com/tools/otto/codes/" target="_blank">Web Installer</a></li> <li>Otto Ninja Starter <a href="OttoNinja.ino" target="_blank">Arduino Ino</a></li></ul></p>'
+            })
+        }
+
+        function calibration() {
+            
+            let script = document.createElement('script');
+            script.setAttribute('type', 'text/javascript');
+            script.setAttribute('src', 'js/calib-scripts.js');
+            document.head.appendChild(script);
+            
+            if (OttoConnected) {
+                Swal.fire({
+                    customClass: 'calibration-screen',
+                    width: 1000,
+                    html: '<style> article { display: flex; flex-direction: column; justify-content: center; align-items: center; } #OttoHead { display: flex; justify-content: space-around; width: 194px; height: 90px; border: 4px solid black; border-bottom: 1px solid black; background-color: #32d900; border-radius: 7px 7px 0 0; } #Eyes--container { display: flex; justify-content: space-around; width: 80%; padding-top: 20px; } .OttoEye { width: 50px; height: 50px; border-radius: 50px; background-color: white; } .OttoEye--iris { width: 70%; height: 70%; border: 2px solid black; border-radius: 50px; background-color: black; margin: 5px auto; } #OttoBody { display: flex; justify-content: space-between; width: 200px; height: 110px; border: 4px solid black; border-radius: 0 0 7px 7px; background-color: white; } #Legs--container, #Heels--container, #Feet--container { display: flex; justify-content: space-between; width: 200px; } #Feet--container { width: 295px; margin-top: -2px; } .OttoLeg { display: flex; justify-content: space-between; width: 40px; height: 50px; border: 4px solid black; margin: 0 3%; background-color: white; } .OttoLeg--heel { display: flex; justify-content: space-between; width: 50px; height: 50px; border: 4px solid black; border-bottom: 2px; border-radius: 15px 15px 0 0; background-color: white; margin-top: -5%; } .OttoLeg--foot { display: flex; flex-direction: column; justify-content: center; width: 100px; height: 10px; border: 4px solid black; background-color: white; } .Left { border-radius: 8px 8px 0 0; } .Right { border-radius: 8px 8px 0 0; } .line { width: 4px; height: 100%; background: black; margin: 0 10px; } .h-line { width: 100%; height: 4px; background: black; } .slider-calib { transform: rotate(270deg); margin-top: 50%; margin-bottom: 50%; -webkit-appearance: none; appearance: none; height: 12px; background: #fff; outline: none; transition: opacity .2s; border-radius: 24.5px; } ::-webkit-scrollbar-thumb { background: red; border-radius: 10px; } .slider-btn { width: 25px; height: 25px; background-color: #32d900; border: none; border-radius: 20%; color: white; font-size: large; font-weight: bold; } #controls { width: 100%; height: 100%; position: absolute; } #controls div { position: absolute; display: flex; flex-direction: column; align-items: center; } #right-slider--container { top: 5%; left: 30%; } #left-slider--container { top: 5%; right: 30%; } #right-foot-slider--container { top: 20%; left: 20%; } #left-foot-slider--container { top: 20%; right: 20%; } #settings-btns { display: flex; justify-content: center; margin-top: 2%; } #settings-btns button { position: relative; padding: 10px; margin: 0 20px; color: white; font-size: 18px; font-weight: bold; border: none; border-radius: 20%; } .test-btn { background-color: #32d900; } .save-btn { background-color: #FF5700; } .calib-btn:hover { transform: scale(1.2); transition-duration: .4s; } </style> <div id="controls"> <div id="right-slider--container"> <label id="rlvalue">90</label> <button id="right-leg-plus" class="slider-btn calib-btn">+</button> <input type="range" class="slider-calib" min="0" max="180" id="right-leg-slider"/> <button id="right-leg-minus" class="slider-btn calib-btn">-</button> </div> <div id="left-slider--container"> <label id="llvalue">90</label> <button id="left-leg-plus" class="slider-btn calib-btn">+</button> <input type="range" class="slider-calib" min="0" max="180" id="left-leg-slider"/> <button id="left-leg-minus" class="slider-btn calib-btn">-</button> </div> <div id="right-foot-slider--container"> <label id="rfvalue">90</label> <button id="right-foot-plus" class="slider-btn calib-btn">+</button> <input type="range" class="slider-calib" min="0" max="180" id="right-foot-slider"/> <button id="right-foot-minus" class="slider-btn calib-btn">-</button> </div> <div id="left-foot-slider--container"> <label id="lfvalue">90</label> <button id="left-foot-plus" class="slider-btn calib-btn">+</button> <input type="range" class="slider-calib" min="0" max="180" id="left-foot-slider"/> <button id="left-foot-minus" class="slider-btn calib-btn">-</button> </div> </div> <article> <div id="OttoHead"> <div class="h-line" style="position: absolute; width: inherit; margin-top: 4px;"></div> <div class="line"></div> <div id="Eyes--container"> <div class="OttoEye"> <div class="OttoEye--iris"></div> </div> <div class="OttoEye"> <div class="OttoEye--iris"></div> </div> </div> <div class="line"></div> </div> <div id="OttoBody"> <div class="line"></div> <div class="line"></div> <div class="h-line" style="position: absolute; width: inherit; margin-top: 100px;"></div> </div> <div id="Legs--container"> <div class="OttoLeg"> <div class="line" style="margin: 0 3px;"></div> <div class="line" style="margin: 0 3px;"></div> </div> <div class="OttoLeg"> <div class="line" style="margin: 0 3px;"></div> <div class="line" style="margin: 0 3px;"></div> </div> </div> <div id="Heels--container"> <div class="OttoLeg--heel"> <div class="line" style="margin: 0 3px;"></div> <div class="line" style="margin: 0 3px;"></div> </div> <div class="OttoLeg--heel"> <div class="line" style="margin: 0 3px;"></div> <div class="line" style="margin: 0 3px;"></div> </div> </div> <div id="Feet--container"> <div class="OttoLeg--foot Left"> <div class="h-line"></div> </div> <div class="OttoLeg--foot Right"> <div class="h-line"></div> </div> </div> </article> <div id="settings-btns"> <button class="test-btn calib-btn" onclick="WalkTest()">Walk Test</button> <button class="save-btn calib-btn" onclick="SaveCalibration()">Save</button> </div>'
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        document.head.removeChild(document.head.lastChild);
+                    } else if (result.isDismissed) {
+                        document.head.removeChild(document.head.lastChild);
+                    }
+                })
+            } else {
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Connect an Otto',
+                showConfirmButton: false,
+                timer: 2500
+            })
+        }
+    }
+    </script>
+
+    <!-- Joystick scripts -->
+    <script>
+        let joystickCanvas, ctx;
+
+        window.addEventListener('load', () => {
+
+            joystickCanvas = document.getElementById('joystick--canvas');
+            ctx = joystickCanvas.getContext('2d');
+            resize();
+
+            joystickCanvas.addEventListener('mousedown', startDrawing);
+            joystickCanvas.addEventListener('mouseup', stopDrawing);
+            joystickCanvas.addEventListener('mousemove', Draw);
+
+            joystickCanvas.addEventListener('touchstart', startDrawing);
+            joystickCanvas.addEventListener('touchend', stopDrawing);
+            joystickCanvas.addEventListener('touchcancel', stopDrawing);
+            joystickCanvas.addEventListener('touchmove', Draw);
+            window.addEventListener('resize', resize);
+
+        });
+
+        let width, height, radius, x_orig, y_orig;
+        function resize() {
+            width = 200;
+            radius = 50;
+            height = 250;
+            ctx.canvas.width = width;
+            ctx.canvas.height = height;
+            canvasBackground();
+            joystick(width / 2, height / 3);
+        }
+
+        function canvasBackground() {
+            x_orig = width / 2;
+            y_orig = height / 3;
+
+            ctx.beginPath();
+            ctx.arc(x_orig, y_orig, radius + 20, 0, Math.PI * 2, true);
+            ctx.fillStyle = '#e5e5e5';
+            ctx.fill();
+        }
+
+        function joystick(width, height) {
+            ctx.beginPath();
+            ctx.arc(width, height, radius, 0, Math.PI * 2, true);
+            ctx.fillStyle = '#32D900';
+            ctx.fill();
+            ctx.strokeStyle = '#1b6904';
+            ctx.lineWidth = 8;
+            ctx.stroke();
+        }
+
+        let coord = { x: 0, y: 0 };
+        let paint = false;
+
+        function getPosition(event) {
+            let mouse_x = event.clientX || event.touches[0].clientX;
+            let mouse_y = event.clientY || event.touches[0].clientY;
+            coord.x = mouse_x - joystickCanvas.offsetLeft;
+            coord.y = mouse_y - joystickCanvas.offsetTop;
+        }
+
+        function is_it_in_the_circle() {
+            let current_radius = Math.sqrt(Math.pow(coord.x - x_orig, 2) + Math.pow(coord.y - y_orig, 2));
+            if (radius >= current_radius) return true
+            else return false
+        }
+
+
+        function startDrawing(event) {
+            paint = true;
+            getPosition(event);
+            if (is_it_in_the_circle()) {
+                ctx.clearRect(0, 0, joystickCanvas.width, joystickCanvas.height);
+                canvasBackground();
+                joystick(coord.x, coord.y);
+                Draw();
+            }
+        }
+
+
+        function stopDrawing() {
+            paint = false;
+            ctx.clearRect(0, 0, joystickCanvas.width, joystickCanvas.height);
+            canvasBackground();
+            joystick(width / 2, height / 3);
+            Joystick(0,0);
+
+        }
+
+        function Draw(event) {
+
+            if (paint) {
+                ctx.clearRect(0, 0, joystickCanvas.width, joystickCanvas.height);
+                canvasBackground();
+                let angle_in_degrees,x, y, speed;
+                let angle = Math.atan2((coord.y - y_orig), (coord.x - x_orig));
+
+                if (Math.sign(angle) == -1) {
+                    angle_in_degrees = Math.round(-angle * 180 / Math.PI);
+                }
+                else {
+                    angle_in_degrees =Math.round( 360 - angle * 180 / Math.PI);
+                }
+
+
+                if (is_it_in_the_circle()) {
+                    joystick(coord.x, coord.y);
+                    x = coord.x;
+                    y = coord.y;
+                }
+                else {
+                    x = radius * Math.cos(angle) + x_orig;
+                    y = radius * Math.sin(angle) + y_orig;
+                    joystick(x, y);
+                }
+
+
+                getPosition(event);
+
+                speed =  Math.round(100 * Math.sqrt(Math.pow(x - x_orig, 2) + Math.pow(y - y_orig, 2)) / radius);
+
+                let x_relative = Math.round(x - x_orig);
+                let y_relative = Math.round(y - y_orig);
+                Joystick(x_relative, y_relative);
+
+            }
+        }
+    </script>
+    <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
+    <script>
+      kofiWidgetOverlay.draw('ottodiy', {
+        'type': 'floating-chat',
+        'floating-chat.donateButton.text': 'Support Us',
+        'floating-chat.donateButton.background-color': '#5cb85c',
+        'floating-chat.donateButton.text-color': '#fff'
+      });
+    </script>
+</body>
+</html>
