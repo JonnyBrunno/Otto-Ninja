@@ -78,7 +78,7 @@ Projeto utilizado como referência:
 ## Tela Inicial
 
 <p align="center">
-<img src="images/interface-home.png">
+<img src="WebAppControl.png">
 </p>
 
 ---
@@ -86,7 +86,7 @@ Projeto utilizado como referência:
 ## Painel de Controle
 
 <p align="center">
-<img src="images/interface-control.png">
+<img src="WebAppControl2.png">
 </p>
 
 A interface foi completamente redesenhada para oferecer uma experiência mais intuitiva, organizada e compatível com as necessidades dos projetos desenvolvidos pelo INOVAMECH.
@@ -100,7 +100,7 @@ Foi desenvolvido um hardware baseado em **ESP32**, responsável pela comunicaç�
 ## Vista Frontal
 
 <p align="center">
-<img src="images/esp32-front.jpg" width="350">
+<img src="Hardwarefront.jpeg" width="350">
 </p>
 
 ---
@@ -108,7 +108,7 @@ Foi desenvolvido um hardware baseado em **ESP32**, responsável pela comunicaç�
 ## Vista Traseira
 
 <p align="center">
-<img src="images/esp32-back.jpg" width="350">
+<img src="Hardwareverse.jpeg" width="350">
 </p>
 
 A placa foi projetada para simplificar a integração entre os servomotores, sensores e o ESP32, proporcionando uma solução compacta e de fácil manutenção.
